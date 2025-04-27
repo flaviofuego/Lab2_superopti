@@ -60,7 +60,7 @@ st.markdown("### Análisis del rendimiento académico de estudiantes")
 @st.cache_data
 def load_data():
     try:
-        data = pd.read_csv('Student_Performance.csv')
+        data = pd.read_csv('dataset\Student_Performance.csv')
         return data
     except FileNotFoundError:
         st.error("No se encontró el archivo 'Student_Performance.csv'. Por favor, asegúrese de que el archivo esté en el mismo directorio que esta aplicación.")
@@ -102,10 +102,28 @@ if data is not None:
         
         # Información sobre los tipos de datos
         st.subheader("Información sobre tipos de datos")
-        buffer = io.StringIO()
-        data.info(buf=buffer)
-        s = buffer.getvalue()
-        st.text(s)
+        # buffer = io.StringIO()
+        # data.info(buf=buffer)
+        # s = buffer.getvalue()
+        # st.text(s)
+        
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.write("**Data dimensions:**")
+            st.write(f"- Rows: {data.shape[0]}")
+            st.write(f"- Columns: {data.shape[1]}")
+            
+            st.write("**Missing values:**")
+            st.write("- None" if data.isnull().sum().sum() == 0 else data.isnull().sum())
+
+        with col2:
+            st.write("**Data types:**")
+            for col, dtype in zip(data.columns, data.dtypes):
+                st.write(f"- {col}: {dtype}")
+            
+            st.write(f"**Memory usage:** {data.memory_usage(deep=True).sum() / 1024:.1f} KB")
+        
         
         # Valores únicos en variables categóricas
         st.subheader("Valores únicos en Extracurricular Activities")
