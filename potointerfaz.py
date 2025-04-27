@@ -12,8 +12,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression, SGDRegressor, Ridge, Lasso, ElasticNet
 from sklearn.metrics import mean_squared_error, r2_score
-# Importamos io para manejar el buffer en la info del DataFrame
-import io
+
 # Configuración de la página
 st.set_page_config(
     page_title="Laboratorio 2: Algoritmos de Optimización en ML",
@@ -117,20 +116,13 @@ if data is not None:
                 return str(tipo)
         # Información sobre los tipos de datos
         st.subheader("Información sobre tipos de datos")
-        # buffer = io.StringIO()
-        # data.info(buf=buffer)
-        # s = buffer.getvalue()
-        # st.text(s)
         
         # Crea una tabla personalizada para mostrar la información
         info_datos = []
         for col in data.columns:
-            # Cuenta valores no-nulos
-            no_nulos = data[col].count()
-            # Obtiene el tipo de dato y lo formatea
-            tipo = formato_tipo_dato(data[col].dtype)
-            # Porcentaje de completitud
-            porcentaje = 100 * (no_nulos / len(data))
+            no_nulos = data[col].count() # Cuenta valores no-nulo
+            tipo = formato_tipo_dato(data[col].dtype) # Obtiene el tipo de dato y lo formatea
+            porcentaje = 100 * (no_nulos / len(data)) # Porcentaje de completitud
             
             info_datos.append({
                 "Columna": col,
@@ -151,6 +143,7 @@ if data is not None:
         with col2:
             memo_kb = data.memory_usage(deep=True).sum() / 1024
             st.write(f"**Uso de memoria:** {memo_kb:.1f} KB")
+        
         # Valores únicos en variables categóricas
         st.subheader("Valores únicos en Extracurricular Activities")
         st.write(data['Extracurricular Activities'].unique())
@@ -205,13 +198,16 @@ if data is not None:
             st.subheader("Interpretación de correlaciones")
             for feature in selected_features:
                 corr_value = correlation_matrix.loc[feature, 'Performance Index']
-                st.markdown(f"- **{feature} vs. Performance Index**: {corr_value:.4f}")
+                correlacion = ""
+
                 if abs(corr_value) > 0.7:
-                    st.markdown("   - **Correlación fuerte**")
+                    correlacion = "**Correlación fuerte**"
                 elif abs(corr_value) > 0.3:
-                    st.markdown("   - **Correlación moderada**")
+                    correlacion = "**Correlación moderada**"
                 else:
-                    st.markdown("   - **Correlación débil**")
+                    correlacion = "**Correlación débil**"
+
+                st.markdown(f"- **{feature} vs. Performance Index**: {corr_value:.4f} ({correlacion})")
             
             # Scatter plots individuales
             st.subheader("Relaciones entre variables seleccionadas y Performance Index")
@@ -303,8 +299,7 @@ if data is not None:
             equation = f'{y_name} = {coef1:.2f}*{x1_name} + {coef2:.2f}*{x2_name} + {intercept:.2f}'
             r2 = model.score(X, y)
             
-            # Creamos la figura de Plotly
-            fig = go.Figure()
+            fig = go.Figure() # Creamos la figura de Plotly
             
             # Añadimos los puntos de datos
             fig.add_trace(
@@ -912,8 +907,7 @@ if data is not None:
         use_best_params = st.checkbox("Usar los mejores parámetros de los experimentos anteriores", value=True)
         
         if use_best_params:
-            # Usar los mejores parámetros encontrados
-            split = best_split
+            split = best_split # Usar los mejores parámetros encontrados
             
             # Determinar el regularizador basado en el nombre
             if 'Ridge' in best_regularizer:
@@ -1208,34 +1202,20 @@ if data is not None:
         Este estudio subraya la importancia de seleccionar cuidadosamente los algoritmos de optimización y ajustar sus parámetros para obtener el mejor rendimiento en aplicaciones de machine learning.
         """)
         
-        # # Video explicativo (opcional)
-        # st.subheader("Video Explicativo (Bonificación adicional)")
-        
-        # st.markdown("""
-        # Para obtener la bonificación adicional de 0.5 puntos, puede crear un video explicativo de 5 minutos que resuma:
-        
-        # 1. Los principales hallazgos del análisis
-        # 2. El comportamiento de los diferentes algoritmos de optimización
-        # 3. La interpretación de los resultados
-        # 4. Las implicaciones prácticas de los hallazgos
-        
-        # Utilice las visualizaciones generadas por esta aplicación para ilustrar sus puntos.
-        # """)
-        
         # Información del equipo
         st.markdown("<hr>", unsafe_allow_html=True)
         st.subheader("Información del Equipo")
         
-        # # Permitir ingresar información del equipo
+        # Permitir ingresar información del equipo
         # num_members = st.number_input("Número de integrantes:", min_value=1, max_value=4, value=1, step=1)
         num_members = 3
         st.markdown("### Integrantes")
         lista_integrantes = [
             ["Flavio Arregoces", "200182105"],
             ["Jorge Sanchez", "Pendiente"],
-            ["Cristian Gonzales", "Pendiente"],
-            
+            ["Cristian Gonzales", "200182438"],
         ]
+
         for i in range(num_members):
             col1, col2 = st.columns(2)
             with col1:
@@ -1248,4 +1228,3 @@ if data is not None:
         st.date_input("Fecha de entrega:", value=pd.to_datetime("2025-05-01"), disabled=False)
 else:
     st.error("No se pudo cargar el dataset. Por favor, verifica que el archivo 'Student_Performance.csv' esté disponible.")
-
