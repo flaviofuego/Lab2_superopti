@@ -100,6 +100,21 @@ if data is not None:
         st.subheader("Estadísticas descriptivas")
         st.dataframe(data.describe())
         
+        
+        def formato_tipo_dato(tipo):
+            """Convierte tipos de datos técnicos a términos más comprensibles en español"""
+            if 'int' in str(tipo):
+                return "entero"
+            elif 'float' in str(tipo):
+                return "decimal"
+            elif 'object' in str(tipo):
+                return "categórico"
+            elif 'bool' in str(tipo):
+                return "booleano"
+            elif 'datetime' in str(tipo):
+                return "fecha/hora"
+            else:
+                return str(tipo)
         # Información sobre los tipos de datos
         st.subheader("Información sobre tipos de datos")
         # buffer = io.StringIO()
@@ -107,24 +122,35 @@ if data is not None:
         # s = buffer.getvalue()
         # st.text(s)
         
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.write("**Data dimensions:**")
-            st.write(f"- Rows: {data.shape[0]}")
-            st.write(f"- Columns: {data.shape[1]}")
+        # Crea una tabla personalizada para mostrar la información
+        info_datos = []
+        for col in data.columns:
+            # Cuenta valores no-nulos
+            no_nulos = data[col].count()
+            # Obtiene el tipo de dato y lo formatea
+            tipo = formato_tipo_dato(data[col].dtype)
+            # Porcentaje de completitud
+            porcentaje = 100 * (no_nulos / len(data))
             
-            st.write("**Missing values:**")
-            st.write("- None" if data.isnull().sum().sum() == 0 else data.isnull().sum())
+            info_datos.append({
+                "Columna": col,
+                "Tipo de Dato": tipo,
+                "Valores No-Nulos": f"{no_nulos} de {len(data)} ({porcentaje:.1f}%)"
+            })
+
+        # Convierte a DataFrame para mostrar como tabla
+        info_df = pd.DataFrame(info_datos)
+        st.table(info_df)
+
+        # Información adicional del dataset
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write(f"**Número de filas:** {data.shape[0]}")
+            st.write(f"**Número de columnas:** {data.shape[1]}")
 
         with col2:
-            st.write("**Data types:**")
-            for col, dtype in zip(data.columns, data.dtypes):
-                st.write(f"- {col}: {dtype}")
-            
-            st.write(f"**Memory usage:** {data.memory_usage(deep=True).sum() / 1024:.1f} KB")
-        
-        
+            memo_kb = data.memory_usage(deep=True).sum() / 1024
+            st.write(f"**Uso de memoria:** {memo_kb:.1f} KB")
         # Valores únicos en variables categóricas
         st.subheader("Valores únicos en Extracurricular Activities")
         st.write(data['Extracurricular Activities'].unique())
