@@ -60,7 +60,7 @@ st.markdown("### Análisis del rendimiento académico de estudiantes")
 @st.cache_data
 def load_data():
     try:
-        data = pd.read_csv('dataset\Student_Performance.csv')
+        data = pd.read_csv('Student_Performance.csv')
         return data
     except FileNotFoundError:
         st.error("No se encontró el archivo 'Student_Performance.csv'. Por favor, asegúrese de que el archivo esté en el mismo directorio que esta aplicación.")
