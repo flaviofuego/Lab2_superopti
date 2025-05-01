@@ -70,7 +70,7 @@ Lab2_superopti/
 3. Para ejecutar la interfaz interactiva, utiliza el archivo `potointerfaz.py`:
 
    ```bash
-   python potointerfaz.py
+   py -m streamlit run potointerfaz.py
    ```
 
 ## Resultados Clave
