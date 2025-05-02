@@ -90,9 +90,9 @@ Lab2_superopti/
 
 ![Relación 3D](images/3d_viz_scores_hours.png)
 
-## Contribuciones
+## Resultados de la regresion
 
-Si deseas contribuir, por favor abre un issue o envía un pull request.
+![Regresion Lineal](images/predictions_vs_actual.png)
 
 ## Licencia
 
