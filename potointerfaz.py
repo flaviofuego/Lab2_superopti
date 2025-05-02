@@ -1212,8 +1212,8 @@ if data is not None:
         st.markdown("### Integrantes")
         lista_integrantes = [
             ["Flavio Arregoces", "200182105"],
-            ["Jorge Sanchez", "Pendiente"],
-            ["Cristian Gonzales", "200182438"],
+            ["Jorge Sanchez", "200129295"],
+            ["Cristian Gonzalez", "200182438"],
         ]
 
         for i in range(num_members):
