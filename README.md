@@ -2,7 +2,12 @@
 
 Este proyecto explora el uso de algoritmos de optimización en modelos de regresión lineal para predecir el rendimiento académico de estudiantes. Se analizan diferentes métodos de optimización, regularización y proporciones de entrenamiento/prueba, además de incluir visualizaciones 3D interactivas.
 
+para una visualizacion rapida de todo el proyecto se puede ingresar al siguiente enlace (en caso de estar caida se debe esperar 5 minutos para reiniciarse)
+[Pagina del Laboratorio](https://flaviofuego-lab2-superopti-potointerfaz-umzikn.streamlit.app)
+
 ## Descripción General
+
+[dataset](https://www.kaggle.com/datasets/mitgandhi10/dataset-for-multiple-regression/data)
 
 El objetivo principal es predecir el **Índice de Rendimiento Académico** utilizando características como:
 
@@ -70,7 +75,7 @@ Lab2_superopti/
 3. Para ejecutar la interfaz interactiva, utiliza el archivo `potointerfaz.py`:
 
    ```bash
-   python potointerfaz.py
+   py -m streamlit run potointerfaz.py
    ```
 
 ## Resultados Clave
@@ -90,9 +95,9 @@ Lab2_superopti/
 
 ![Relación 3D](images/3d_viz_scores_hours.png)
 
-## Contribuciones
+## Resultados de la regresion
 
-Si deseas contribuir, por favor abre un issue o envía un pull request.
+![Regresion Lineal](images/predictions_vs_actual.png)
 
 ## Licencia
 
